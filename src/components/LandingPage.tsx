@@ -118,9 +118,9 @@ export function LandingPage({ onStart }: LandingPageProps) {
           <Image
             src="/logo.png"
             alt="LaunchPilot AI"
-            width={88}
-            height={88}
-            style={{ objectFit: "contain" }}
+            width={120}
+            height={120}
+            style={{ objectFit: "contain", filter: "drop-shadow(0 0 32px rgba(0,152,234,0.3))" }}
           />
         </motion.div>
 

@@ -5,36 +5,22 @@ import { Navbar } from "@/components/Navbar";
 import { LandingPage } from "@/components/LandingPage";
 import { ConnectWallet } from "@/components/ConnectWallet";
 import { Dashboard } from "@/components/Dashboard";
-import { LoadingOverlay } from "@/components/LoadingOverlay";
 
 type Screen = "landing" | "connect" | "dashboard";
 
-const CONNECT_STEPS = [
-  ["Connecting to wallet...", "Verifying TON wallet signature"],
-  ["Authenticated.", "Loading your workspace"],
-];
-
 export default function Home() {
   const [screen, setScreen] = useState<Screen>("landing");
-  const [connecting, setConnecting] = useState(false);
   const [walletAddress, setWalletAddress] = useState("");
-  const [balance] = useState("142.5");
+  const [balance, setBalance] = useState("0.00");
 
-  const addresses = ["UQA4k...9mX", "EQB3x...f7Kp", "UQCzZ...m2Nt"];
-
-  const handleConnect = (walletName: string) => {
-    setConnecting(true);
-    setTimeout(() => {
-      setConnecting(false);
-      setWalletAddress(addresses[Math.floor(Math.random() * addresses.length)]);
-      setScreen("dashboard");
-    }, 1500);
+  const handleConnected = (address: string, bal: string) => {
+    setWalletAddress(address);
+    setBalance(bal);
+    setScreen("dashboard");
   };
 
   return (
     <main>
-      <LoadingOverlay show={connecting} steps={CONNECT_STEPS} />
-
       <Navbar
         walletAddress={screen === "dashboard" ? walletAddress : undefined}
         balance={screen === "dashboard" ? balance : undefined}
@@ -47,7 +33,7 @@ export default function Home() {
 
       {screen === "connect" && (
         <ConnectWallet
-          onConnect={handleConnect}
+          onConnected={handleConnected}
           onBack={() => setScreen("landing")}
         />
       )}
