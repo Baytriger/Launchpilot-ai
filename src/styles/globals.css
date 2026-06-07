@@ -1,0 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Hubot+Sans:ital,wght@0,200..900;1,200..900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-hubot: "Hubot Sans", sans-serif;
+
+  /* Light mode */
+  --bg: #ffffff;
+  --bg-2: #f7f9fc;
+  --bg-3: #eef2f8;
+  --card: #ffffff;
+  --text: #0a0e1a;
+  --sub: #4b5563;
+  --muted: #9ca3af;
+  --border: rgba(0, 0, 0, 0.07);
+  --border-2: rgba(0, 0, 0, 0.12);
+  --primary: #0098ea;
+  --accent: #7c3aed;
+  --radius: 14px;
+}
+
+.dark {
+  --bg: #080c14;
+  --bg-2: #0e1420;
+  --bg-3: #141a28;
+  --card: #0e1420;
+  --text: #edf2ff;
+  --sub: #8b93a7;
+  --muted: #3d4660;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-2: rgba(255, 255, 255, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: var(--font-hubot);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-hubot);
+  transition: background 0.3s, color 0.3s;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-2);
+  border-radius: 3px;
+}
+
+/* Grid background utility */
+.grid-bg {
+  background-image: linear-gradient(
+      rgba(0, 152, 234, 0.04) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(0, 152, 234, 0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
