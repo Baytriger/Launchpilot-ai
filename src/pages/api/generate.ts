@@ -16,7 +16,7 @@ export default async function handler(
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: "GEMINI_API_KEY not configured" });
+    return res.status(500).json({ error: "GEMINI_API_KEY not configured in environment variables" });
   }
 
   const prompt = `
@@ -97,14 +97,24 @@ Return ONLY valid JSON (no markdown, no explanation) with this exact structure:
     "communityNote": "<one sentence note on community score>",
     "verdict": "<2-3 sentence overall verdict and top recommendation>"
   },
-  "miraPrompt": "<A detailed briefing prompt for Mira AI co-founder. Start with: 'Hi Mira, I am the founder of [startup name]. Here is my startup context: ...' Include the startup description, scores, tokenomics summary, and ask Mira to help with the next steps as co-founder.>"
+  "miraPrompt": "<A detailed briefing prompt for Mira AI co-founder. Start with: Hi Mira, I am the founder of [startup name]. Here is my startup context. Include the startup description, scores, tokenomics summary, and ask Mira to help with the next steps as co-founder.>"
 }
 `;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-      {
+    // Try gemini-1.5-flash first, fall back to gemini-pro
+    const models = [
+      "gemini-1.5-flash",
+      "gemini-1.5-pro",
+      "gemini-pro",
+    ];
+
+    let response: Response | null = null;
+    let lastError = "";
+
+    for (const model of models) {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+      response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -114,20 +124,32 @@ Return ONLY valid JSON (no markdown, no explanation) with this exact structure:
             maxOutputTokens: 4096,
           },
         }),
-      }
-    );
+      });
 
-    if (!response.ok) {
-      const err = await response.text();
-      console.error("Gemini error:", err);
-      return res.status(500).json({ error: "Gemini API failed", details: err });
+      if (response.ok) break;
+
+      lastError = await response.text();
+      console.error(`Model ${model} failed:`, lastError);
+      response = null;
+    }
+
+    if (!response) {
+      return res.status(500).json({
+        error: "Gemini API failed on all models",
+        details: lastError,
+        keyPresent: !!apiKey,
+        keyPrefix: apiKey?.slice(0, 8) + "...",
+      });
     }
 
     const data = await response.json();
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
-      return res.status(500).json({ error: "Empty response from Gemini" });
+      return res.status(500).json({
+        error: "Empty response from Gemini",
+        raw: JSON.stringify(data).slice(0, 500),
+      });
     }
 
     // Strip markdown code fences if present
@@ -138,12 +160,18 @@ Return ONLY valid JSON (no markdown, no explanation) with this exact structure:
       parsed = JSON.parse(clean);
     } catch {
       console.error("JSON parse error. Raw:", clean.slice(0, 500));
-      return res.status(500).json({ error: "Failed to parse Gemini response" });
+      return res.status(500).json({
+        error: "Failed to parse Gemini response as JSON",
+        raw: clean.slice(0, 500),
+      });
     }
 
     return res.status(200).json(parsed);
   } catch (err) {
     console.error("Generate error:", err);
-    return res.status(500).json({ error: "Internal server error" });
+    return res.status(500).json({
+      error: "Internal server error",
+      details: err instanceof Error ? err.message : String(err),
+    });
   }
 }
