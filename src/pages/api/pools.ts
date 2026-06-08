@@ -71,7 +71,7 @@ export default async function handler(
     // Resolve all symbols in parallel
     const symbolMap: Record<string, string> = {};
     await Promise.all(
-      [...addressSet].map(async (addr) => {
+      Array.from(addressSet).map(async (addr) => {
         symbolMap[addr] = await resolveSymbol(addr);
       })
     );
