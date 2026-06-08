@@ -1,93 +1,72 @@
-# LaunchPilot AI
+LaunchPilot AI
+Turn any idea into a launch-ready TON startup.
+LaunchPilot AI is an AI-powered venture studio built on the TON blockchain. Founders input a startup concept and receive a complete launch package in under 60 seconds — including validation scores, tokenomics, an investor-grade whitepaper, STON.fi liquidity strategy, and a full context handoff to Mira AI.
 
-**Turn Any Idea Into a Launch-Ready TON Startup**
+Features
 
-An AI-powered venture studio that helps founders transform startup ideas into launch-ready TON projects — complete with startup validation, tokenomics, whitepapers, STON.fi liquidity planning, and Mira AI co-founder handoff.
+Startup Validation — AI scoring across market opportunity, competitive landscape, revenue potential, and investor readiness
+Tokenomics Generator — Token supply modeling, distribution architecture, vesting schedules, and treasury strategy
+Whitepaper Generator — Investor-grade documentation with executive summary, problem statement, solution architecture, and roadmap
+STON.fi Liquidity Planner — Intelligent allocation strategy powered by live STON.fi DEX pool data
+Mira AI Handoff — Transfer your full startup context to Mira AI for continued co-founder guidance in Telegram
+TON Wallet Integration — Native TON Connect authentication with on-chain context awareness
 
----
 
-## Tech Stack
+Tech Stack
+TechnologyPurposeNext.js 14App frameworkTypeScriptType safetyTailwindCSSUtility stylingFramer MotionAnimations and transitionsHubot SansPrimary typeface
 
-- **Next.js 15** — App framework
-- **TypeScript** — Type safety throughout
-- **TailwindCSS** — Utility styling + design tokens
-- **Framer Motion** — Animations and transitions
-- **TanStack React Query** — Server state management
-- **Hubot Sans** — Primary typeface (GitHub's humanoid font)
+Getting Started
+bash# 1. Clone the repository
+git clone https://github.com/Baytriger/Launchpilot-ai.git
+cd Launchpilot-ai
 
----
-
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── Navbar.tsx          # Sticky nav with logo, dark mode, wallet chip
-│   ├── LandingPage.tsx     # Hero, features, how it works, CTA
-│   ├── ConnectWallet.tsx   # TON wallet connection screen
-│   ├── Dashboard.tsx       # Main dashboard orchestrator
-│   ├── Sidebar.tsx         # Dashboard navigation sidebar
-│   ├── DashPanels.tsx      # All dashboard tab panels
-│   └── LoadingOverlay.tsx  # Animated loading overlay
-├── lib/
-│   ├── theme.tsx           # Dark/light mode context
-│   └── types.ts            # Shared TypeScript types
-├── pages/
-│   ├── _app.tsx            # App wrapper with providers
-│   ├── _document.tsx       # HTML shell + font preload
-│   └── index.tsx           # Root page, screen orchestration
-└── styles/
-    └── globals.css         # CSS variables, Hubot Sans import, base styles
-```
-
----
-
-## Getting Started
-
-```bash
-# 1. Install dependencies
+# 2. Install dependencies
 npm install
 
-# 2. Run development server
+# 3. Configure environment variables
+cp .env.example .env.local
+
+# 4. Start the development server
 npm run dev
+Open http://localhost:3000 in your browser.
 
-# 3. Open in browser
-# http://localhost:3000
-```
+Project Structure
+src/
+├── components/
+│   ├── Navbar.tsx           # Navigation with wallet chip and dark mode
+│   ├── LandingPage.tsx      # Hero, features, workflow, CTA
+│   ├── ConnectWallet.tsx    # TON wallet connection screen
+│   ├── Dashboard.tsx        # Dashboard orchestrator and state
+│   ├── Sidebar.tsx          # Dashboard tab navigation
+│   ├── DashPanels.tsx       # All dashboard tab panels
+│   └── LoadingOverlay.tsx   # Animated generation overlay
+├── lib/
+│   ├── theme.tsx            # Dark/light mode context
+│   └── types.ts             # Shared TypeScript types
+├── pages/
+│   ├── _app.tsx             # App wrapper with providers
+│   ├── _document.tsx        # HTML shell and font preload
+│   ├── index.tsx            # Root page and screen orchestration
+│   └── api/
+│       ├── generate.ts      # AI generation endpoint
+│       └── pools.ts         # STON.fi live pool data endpoint
+└── styles/
+    └── globals.css          # CSS variables and base styles
 
----
+Dashboard Modules
+TabDescriptionStartup IdeaInput form — name, industry, description, target users, token symbolValidationAI scores with market, competition, revenue, and risk analysisTokenomicsToken overview, distribution chart, and vesting scheduleBrandingNames, taglines, positioning, and visual identity conceptsWhitepaperFour-section investor-grade whitepaperRoadmapMilestone grid across Month 1, 3, 6, and 12Liquidity PlannerSTON.fi allocation strategy and ecosystem metricsPool IntelligenceLive pool data with recommended pool for token launchLaunch ScoreReadiness score with sub-score breakdownMira AIFull context handoff to Mira AI on Telegram
 
-## Dashboard Modules
+Design
 
-| Tab | Description |
-|-----|-------------|
-| Startup Idea | Input form — name, industry, description, users, token |
-| Validation | AI scores + market, competition, revenue, risk analysis |
-| Tokenomics | Token overview, donut chart distribution, vesting schedule |
-| Branding | Names, taglines, positioning, visual identity concepts |
-| Whitepaper | 4-section investor-grade whitepaper with PDF export |
-| Roadmap | 4-column milestone grid (Month 1/3/6/12) |
-| Liquidity Planner | STON.fi allocation strategy + ecosystem metrics |
-| Pool Intelligence | Live-style pool table + recommended pool for token launch |
-| Launch Score | 83/100 readiness score with 4 sub-score bars |
-| Mira AI | Context handoff → deep link to Mira on Telegram |
+Font: Hubot Sans (200–900 weight)
+Primary: #0098EA — TON blue
+Accent: #7C3AED — violet
+Theming: Full dark/light mode via CSS variables and a .dark class on <html>
 
----
 
-## Design System
+Built With
 
-- **Font**: Hubot Sans (GitHub's humanoid sans-serif, 200–900 weight)
-- **Primary**: `#0098EA` (TON blue)
-- **Accent**: `#7C3AED` (violet)
-- **Dark mode**: Full CSS variable swap via `.dark` class on `<html>`
-- **No emojis** — professional iconography only
-- **No fake social proof** — all content is functional, not decorative
-
----
-
-## Notes
-
-- Place your logo at `public/logo.png`
-- TON Connect wallet integration is stubbed — replace `handleConnect` in `pages/index.tsx` with real `@tonconnect/ui-react` implementation
-- STON.fi API calls can be wired into the liquidity and pools panels using `@ston-fi/sdk`
-- Mira deep link uses `t.me/mira_ton_bot?start=<encoded_context>` — update the bot username as needed
+TON Connect — Wallet authentication
+STON.fi DEX API — Live pool data and liquidity intelligence
+Mira AI — Telegram-based AI co-founder
+Anthropic Claude — All AI generation
