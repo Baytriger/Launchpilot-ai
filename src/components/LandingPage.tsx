@@ -73,55 +73,77 @@ const stats = [
 export function LandingPage({ onStart }: LandingPageProps) {
   return (
     <div>
+      <style>{`
+        .lp-hero { padding: 48px 20px 40px; }
+        .lp-headline { font-size: 36px; letter-spacing: -1.5px; }
+        .lp-sub { font-size: 15px; }
+        .lp-btn-row { flex-direction: column; align-items: stretch; }
+        .lp-btn-row button { text-align: center; }
+        .lp-stats { gap: 20px; flex-wrap: wrap; }
+        .lp-divider { margin: 0 20px; }
+        .lp-section { padding: 40px 20px; }
+        .lp-feature-grid { grid-template-columns: 1fr; }
+        .lp-steps-grid { grid-template-columns: 1fr; }
+        .lp-step { border-right: none !important; border-bottom: 1px solid var(--border); }
+        .lp-step:last-child { border-bottom: none; }
+        .lp-cta { margin: 0 20px 40px; padding: 32px 20px; }
+        .lp-footer { padding: 16px 20px 24px; }
+
+        @media (min-width: 480px) {
+          .lp-headline { font-size: 44px; letter-spacing: -2px; }
+          .lp-btn-row { flex-direction: row; align-items: center; }
+          .lp-feature-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (min-width: 768px) {
+          .lp-hero { padding: 72px 48px 56px; }
+          .lp-headline { font-size: 54px; letter-spacing: -2.5px; }
+          .lp-sub { font-size: 17px; }
+          .lp-stats { gap: 44px; flex-wrap: nowrap; }
+          .lp-divider { margin: 0 48px; }
+          .lp-section { padding: 56px 48px; }
+          .lp-feature-grid { grid-template-columns: repeat(3, 1fr); }
+          .lp-steps-grid { grid-template-columns: repeat(4, 1fr); }
+          .lp-step { border-right: 1px solid var(--border); border-bottom: none !important; }
+          .lp-step:last-child { border-right: none; }
+          .lp-cta { margin: 0 48px 48px; padding: 44px 36px; }
+          .lp-footer { padding: 18px 48px 28px; }
+        }
+
+        @keyframes lp-ring1 { 0%,100%{transform:scale(1);opacity:0.6} 50%{transform:scale(1.06);opacity:1} }
+        @keyframes lp-ring2 { 0%,100%{transform:scale(1);opacity:0.4} 50%{transform:scale(1.04);opacity:0.8} }
+      `}</style>
+
       {/* Hero */}
       <div
-        style={{
-          padding: "72px 48px 56px",
-          textAlign: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}
+        className="lp-hero"
+        style={{ textAlign: "center", position: "relative", overflow: "hidden" }}
       >
         {/* Grid background */}
-        <div
-          className="grid-bg"
-          style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
-        />
+        <div className="grid-bg" style={{ position: "absolute", inset: 0, pointerEvents: "none" }} />
         {/* Glow */}
-        <div
-          style={{
-            position: "absolute",
-            top: -100,
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: 500,
-            height: 360,
-            background:
-              "radial-gradient(ellipse at center, rgba(0,152,234,0.07) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }}
-        />
+        <div style={{
+          position: "absolute", top: -100, left: "50%", transform: "translateX(-50%)",
+          width: 500, height: 360,
+          background: "radial-gradient(ellipse at center, rgba(0,152,234,0.07) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }} />
 
         {/* Logo */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: 28,
-            position: "relative",
-            zIndex: 1,
-          }}
+          style={{ display: "flex", justifyContent: "center", marginBottom: 28, position: "relative", zIndex: 1 }}
         >
-          <Image
-            src="/logo.png"
-            alt="LaunchPilot AI"
-            width={120}
-            height={120}
-            style={{ objectFit: "contain", filter: "drop-shadow(0 0 32px rgba(0,152,234,0.3))" }}
-          />
+          <div style={{ position: "relative", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ position: "absolute", width: 200, height: 200, borderRadius: "50%", border: "1px solid rgba(0,152,234,0.12)", animation: "lp-ring1 3s ease-in-out infinite" }} />
+            <div style={{ position: "absolute", width: 160, height: 160, borderRadius: "50%", border: "1px solid rgba(0,152,234,0.18)", animation: "lp-ring2 3s ease-in-out infinite 0.5s" }} />
+            <div style={{ position: "absolute", width: 140, height: 140, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,152,234,0.12) 0%, rgba(124,58,237,0.08) 60%, transparent 100%)", filter: "blur(12px)" }} />
+            <div style={{ width: 100, height: 100, borderRadius: 24, background: "linear-gradient(145deg, rgba(0,152,234,0.08), rgba(124,58,237,0.06))", border: "1px solid rgba(0,152,234,0.2)", display: "flex", alignItems: "center", justifyContent: "center", position: "relative", zIndex: 1, boxShadow: "0 0 0 1px rgba(255,255,255,0.05), 0 20px 40px rgba(0,152,234,0.15)" }}>
+              <Image src="/logo.png" alt="LaunchPilot AI" width={80} height={80} style={{ objectFit: "contain", filter: "drop-shadow(0 4px 16px rgba(0,152,234,0.4))" }} />
+            </div>
+          </div>
         </motion.div>
 
         {/* Badge */}
@@ -130,32 +152,14 @@ export function LandingPage({ onStart }: LandingPageProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 7,
-            padding: "5px 14px",
-            borderRadius: 100,
-            border: "1px solid rgba(0,152,234,0.2)",
-            background: "rgba(0,152,234,0.06)",
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: "1.5px",
-            textTransform: "uppercase",
-            color: "var(--primary)",
-            marginBottom: 24,
-            position: "relative",
-            zIndex: 1,
+            display: "inline-flex", alignItems: "center", gap: 7,
+            padding: "5px 14px", borderRadius: 100,
+            border: "1px solid rgba(0,152,234,0.2)", background: "rgba(0,152,234,0.06)",
+            fontSize: 10, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase",
+            color: "var(--primary)", marginBottom: 20, position: "relative", zIndex: 1,
           }}
         >
-          <span
-            style={{
-              width: 5,
-              height: 5,
-              borderRadius: "50%",
-              background: "var(--primary)",
-              display: "inline-block",
-            }}
-          />
+          <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--primary)", display: "inline-block" }} />
           AI-Powered Venture Studio on TON
         </motion.div>
 
@@ -164,15 +168,10 @@ export function LandingPage({ onStart }: LandingPageProps) {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55, delay: 0.15 }}
+          className="lp-headline"
           style={{
-            fontSize: 54,
-            fontWeight: 800,
-            lineHeight: 1.06,
-            letterSpacing: "-2.5px",
-            marginBottom: 20,
-            position: "relative",
-            zIndex: 1,
-            color: "var(--text)",
+            fontWeight: 800, lineHeight: 1.08,
+            marginBottom: 16, position: "relative", zIndex: 1, color: "var(--text)",
           }}
         >
           Turn Any Idea Into a{" "}
@@ -186,15 +185,11 @@ export function LandingPage({ onStart }: LandingPageProps) {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
+          className="lp-sub"
           style={{
-            fontSize: 17,
-            fontWeight: 400,
-            color: "var(--sub)",
-            lineHeight: 1.65,
-            maxWidth: 520,
-            margin: "0 auto 36px",
-            position: "relative",
-            zIndex: 1,
+            fontWeight: 400, color: "var(--sub)", lineHeight: 1.65,
+            maxWidth: 520, margin: "0 auto 28px",
+            position: "relative", zIndex: 1,
           }}
         >
           Generate startup validation, tokenomics, whitepapers, liquidity
@@ -206,71 +201,28 @@ export function LandingPage({ onStart }: LandingPageProps) {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
-          style={{
-            display: "flex",
-            gap: 10,
-            justifyContent: "center",
-            position: "relative",
-            zIndex: 1,
-          }}
+          className="lp-btn-row"
+          style={{ display: "flex", gap: 10, justifyContent: "center", position: "relative", zIndex: 1 }}
         >
           <button
             onClick={onStart}
             style={{
-              padding: "13px 28px",
-              borderRadius: 11,
-              fontSize: 15,
-              fontWeight: 600,
-              cursor: "pointer",
-              background: "var(--primary)",
-              color: "#fff",
-              border: "none",
-              fontFamily: "var(--font-hubot)",
-              letterSpacing: "-0.2px",
-              transition: "opacity 0.2s, transform 0.2s",
-            }}
-            onMouseOver={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.opacity = "0.9";
-              (e.currentTarget as HTMLButtonElement).style.transform =
-                "translateY(-1px)";
-            }}
-            onMouseOut={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.opacity = "1";
-              (e.currentTarget as HTMLButtonElement).style.transform =
-                "translateY(0)";
+              padding: "13px 28px", borderRadius: 11, fontSize: 15,
+              fontWeight: 600, cursor: "pointer", background: "var(--primary)",
+              color: "#fff", border: "none", fontFamily: "var(--font-hubot)",
+              letterSpacing: "-0.2px", transition: "opacity 0.2s, transform 0.2s",
             }}
           >
             Start Building
           </button>
           <button
-            onClick={() =>
-              document
-                .getElementById("features")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
+            onClick={() => document.getElementById("features")?.scrollIntoView({ behavior: "smooth" })}
             style={{
-              padding: "13px 28px",
-              borderRadius: 11,
-              fontSize: 15,
-              fontWeight: 600,
-              cursor: "pointer",
-              background: "var(--bg)",
-              color: "var(--text)",
-              border: "1px solid var(--border-2)",
-              fontFamily: "var(--font-hubot)",
-              letterSpacing: "-0.2px",
+              padding: "13px 28px", borderRadius: 11, fontSize: 15,
+              fontWeight: 600, cursor: "pointer", background: "var(--bg)",
+              color: "var(--text)", border: "1px solid var(--border-2)",
+              fontFamily: "var(--font-hubot)", letterSpacing: "-0.2px",
               transition: "border-color 0.2s, color 0.2s",
-            }}
-            onMouseOver={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor =
-                "var(--primary)";
-              (e.currentTarget as HTMLButtonElement).style.color =
-                "var(--primary)";
-            }}
-            onMouseOut={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.borderColor =
-                "var(--border-2)";
-              (e.currentTarget as HTMLButtonElement).style.color = "var(--text)";
             }}
           >
             See How It Works
@@ -282,39 +234,20 @@ export function LandingPage({ onStart }: LandingPageProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.35 }}
+          className="lp-stats"
           style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: 44,
-            marginTop: 52,
-            paddingTop: 36,
+            display: "flex", justifyContent: "center",
+            marginTop: 40, paddingTop: 28,
             borderTop: "1px solid var(--border)",
-            position: "relative",
-            zIndex: 1,
+            position: "relative", zIndex: 1,
           }}
         >
           {stats.map((s) => (
             <div key={s.label} style={{ textAlign: "center" }}>
-              <div
-                style={{
-                  fontSize: 26,
-                  fontWeight: 800,
-                  letterSpacing: "-0.8px",
-                  color: "var(--text)",
-                }}
-              >
+              <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.8px", color: "var(--text)" }}>
                 {s.val}
               </div>
-              <div
-                style={{
-                  fontSize: 11,
-                  color: "var(--muted)",
-                  marginTop: 3,
-                  fontWeight: 600,
-                  textTransform: "uppercase",
-                  letterSpacing: "1px",
-                }}
-              >
+              <div style={{ fontSize: 10, color: "var(--muted)", marginTop: 3, fontWeight: 600, textTransform: "uppercase", letterSpacing: "1px" }}>
                 {s.label}
               </div>
             </div>
@@ -323,102 +256,36 @@ export function LandingPage({ onStart }: LandingPageProps) {
       </div>
 
       {/* Divider */}
-      <div
-        style={{ height: 1, background: "var(--border)", margin: "0 48px" }}
-      />
+      <div className="lp-divider" style={{ height: 1, background: "var(--border)" }} />
 
       {/* Features */}
-      <div id="features" style={{ padding: "56px 48px" }}>
-        <div
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: "2px",
-            textTransform: "uppercase",
-            color: "var(--primary)",
-            marginBottom: 10,
-          }}
-        >
+      <div id="features" className="lp-section">
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "var(--primary)", marginBottom: 10 }}>
           Platform Capabilities
         </div>
-        <div
-          style={{
-            fontSize: 32,
-            fontWeight: 800,
-            letterSpacing: "-1.2px",
-            marginBottom: 10,
-            color: "var(--text)",
-          }}
-        >
+        <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-1px", marginBottom: 10, color: "var(--text)", lineHeight: 1.15 }}>
           Every tool to launch on TON
         </div>
-        <div
-          style={{
-            fontSize: 15,
-            color: "var(--sub)",
-            marginBottom: 32,
-            maxWidth: 460,
-          }}
-        >
-          A complete AI-powered venture studio purpose-built for the TON
-          ecosystem.
+        <div style={{ fontSize: 14, color: "var(--sub)", marginBottom: 28, maxWidth: 460 }}>
+          A complete AI-powered venture studio purpose-built for the TON ecosystem.
         </div>
 
         <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: 1,
-            background: "var(--border)",
-            border: "1px solid var(--border)",
-            borderRadius: 14,
-            overflow: "hidden",
-          }}
+          className="lp-feature-grid"
+          style={{ display: "grid", gap: 1, background: "var(--border)", border: "1px solid var(--border)", borderRadius: 14, overflow: "hidden" }}
         >
           {features.map((f) => (
             <div
               key={f.title}
-              style={{
-                background: "var(--bg)",
-                padding: 26,
-                transition: "background 0.2s",
-              }}
-              onMouseOver={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.background =
-                  "var(--bg-2)")
-              }
-              onMouseOut={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.background =
-                  "var(--bg)")
-              }
+              style={{ background: "var(--bg)", padding: "22px 20px", transition: "background 0.2s" }}
+              onMouseOver={(e) => ((e.currentTarget as HTMLDivElement).style.background = "var(--bg-2)")}
+              onMouseOut={(e) => ((e.currentTarget as HTMLDivElement).style.background = "var(--bg)")}
             >
-              <div
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: "50%",
-                  background: f.color,
-                  marginBottom: 16,
-                }}
-              />
-              <div
-                style={{
-                  fontSize: 14,
-                  fontWeight: 700,
-                  marginBottom: 7,
-                  letterSpacing: "-0.2px",
-                  color: "var(--text)",
-                }}
-              >
+              <div style={{ width: 7, height: 7, borderRadius: "50%", background: f.color, marginBottom: 14 }} />
+              <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 7, letterSpacing: "-0.2px", color: "var(--text)" }}>
                 {f.title}
               </div>
-              <div
-                style={{
-                  fontSize: 13,
-                  color: "var(--sub)",
-                  lineHeight: 1.65,
-                }}
-              >
+              <div style={{ fontSize: 13, color: "var(--sub)", lineHeight: 1.65 }}>
                 {f.desc}
               </div>
             </div>
@@ -427,81 +294,32 @@ export function LandingPage({ onStart }: LandingPageProps) {
       </div>
 
       {/* Divider */}
-      <div
-        style={{ height: 1, background: "var(--border)", margin: "0 48px" }}
-      />
+      <div className="lp-divider" style={{ height: 1, background: "var(--border)" }} />
 
       {/* How it works */}
-      <div style={{ padding: "56px 48px" }}>
-        <div
-          style={{
-            fontSize: 11,
-            fontWeight: 700,
-            letterSpacing: "2px",
-            textTransform: "uppercase",
-            color: "var(--primary)",
-            marginBottom: 10,
-          }}
-        >
+      <div className="lp-section">
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "var(--primary)", marginBottom: 10 }}>
           Workflow
         </div>
-        <div
-          style={{
-            fontSize: 32,
-            fontWeight: 800,
-            letterSpacing: "-1.2px",
-            marginBottom: 6,
-            color: "var(--text)",
-          }}
-        >
+        <div style={{ fontSize: 28, fontWeight: 800, letterSpacing: "-1px", marginBottom: 6, color: "var(--text)", lineHeight: 1.15 }}>
           From idea to launch in four steps
         </div>
 
-        <div
-          style={{
-            border: "1px solid var(--border)",
-            borderRadius: 14,
-            overflow: "hidden",
-            marginTop: 24,
-          }}
-        >
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)" }}>
+        <div style={{ border: "1px solid var(--border)", borderRadius: 14, overflow: "hidden", marginTop: 20 }}>
+          <div className="lp-steps-grid" style={{ display: "grid" }}>
             {steps.map((s, i) => (
               <div
                 key={s.n}
-                style={{
-                  padding: "26px 22px",
-                  position: "relative",
-                  borderRight:
-                    i < steps.length - 1 ? "1px solid var(--border)" : "none",
-                }}
+                className={`lp-step${i < steps.length - 1 ? "" : " lp-step-last"}`}
+                style={{ padding: "22px 20px", position: "relative" }}
               >
-                <div
-                  style={{
-                    fontSize: 11,
-                    fontWeight: 700,
-                    letterSpacing: "1.5px",
-                    textTransform: "uppercase",
-                    color: "var(--primary)",
-                    marginBottom: 10,
-                  }}
-                >
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "1.5px", textTransform: "uppercase", color: "var(--primary)", marginBottom: 10 }}>
                   Step {s.n}
                 </div>
-                <div
-                  style={{
-                    fontSize: 15,
-                    fontWeight: 700,
-                    letterSpacing: "-0.3px",
-                    marginBottom: 7,
-                    color: "var(--text)",
-                  }}
-                >
+                <div style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.3px", marginBottom: 7, color: "var(--text)" }}>
                   {s.title}
                 </div>
-                <div
-                  style={{ fontSize: 13, color: "var(--sub)", lineHeight: 1.6 }}
-                >
+                <div style={{ fontSize: 13, color: "var(--sub)", lineHeight: 1.6 }}>
                   {s.desc}
                 </div>
               </div>
@@ -512,48 +330,24 @@ export function LandingPage({ onStart }: LandingPageProps) {
 
       {/* CTA */}
       <div
+        className="lp-cta"
         style={{
-          margin: "0 48px 48px",
-          background:
-            "linear-gradient(160deg, #060A12, #0D1220 60%, #100B1F)",
-          borderRadius: 16,
-          padding: "44px 36px",
-          textAlign: "center",
+          background: "linear-gradient(160deg, #060A12, #0D1220 60%, #100B1F)",
+          borderRadius: 16, textAlign: "center",
         }}
       >
-        <div
-          style={{
-            fontSize: 30,
-            fontWeight: 800,
-            letterSpacing: "-1px",
-            color: "#fff",
-            marginBottom: 10,
-          }}
-        >
+        <div style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-1px", color: "#fff", marginBottom: 10, lineHeight: 1.2 }}>
           Ready to build your TON startup?
         </div>
-        <div
-          style={{
-            fontSize: 15,
-            color: "rgba(255,255,255,0.55)",
-            marginBottom: 26,
-          }}
-        >
-          Connect your TON wallet and generate your full launch plan in under
-          60 seconds.
+        <div style={{ fontSize: 14, color: "rgba(255,255,255,0.55)", marginBottom: 24, lineHeight: 1.55 }}>
+          Connect your TON wallet and generate your full launch plan in under 60 seconds.
         </div>
         <button
           onClick={onStart}
           style={{
-            padding: "13px 28px",
-            borderRadius: 11,
-            fontSize: 15,
-            fontWeight: 600,
-            cursor: "pointer",
-            background: "var(--primary)",
-            color: "#fff",
-            border: "none",
-            fontFamily: "var(--font-hubot)",
+            padding: "13px 28px", borderRadius: 11, fontSize: 15, fontWeight: 600,
+            cursor: "pointer", background: "var(--primary)", color: "#fff",
+            border: "none", fontFamily: "var(--font-hubot)",
           }}
         >
           Connect Wallet and Start Building
@@ -562,19 +356,14 @@ export function LandingPage({ onStart }: LandingPageProps) {
 
       {/* Footer */}
       <div
+        className="lp-footer"
         style={{
-          textAlign: "center",
-          padding: "18px 48px 28px",
-          color: "var(--muted)",
-          fontSize: 11,
-          borderTop: "1px solid var(--border)",
-          fontWeight: 600,
-          letterSpacing: "1px",
-          textTransform: "uppercase",
+          textAlign: "center", color: "var(--muted)", fontSize: 11,
+          borderTop: "1px solid var(--border)", fontWeight: 600,
+          letterSpacing: "1px", textTransform: "uppercase",
         }}
       >
-        LaunchPilot AI &nbsp;·&nbsp; Built on TON &nbsp;·&nbsp; Powered by
-        STON.fi
+        LaunchPilot AI &nbsp;·&nbsp; Built on TON &nbsp;·&nbsp; Powered by STON.fi
       </div>
     </div>
   );

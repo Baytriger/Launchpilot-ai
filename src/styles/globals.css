@@ -73,3 +73,38 @@ body {
     linear-gradient(90deg, rgba(0, 152, 234, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
 }
+
+/* ── Mobile bottom nav ── */
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 200;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 8px 4px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    gap: 2px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .mobile-bottom-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .desktop-sidebar {
+    display: none !important;
+  }
+
+  .dashboard-content {
+    padding-bottom: 80px !important;
+  }
+}

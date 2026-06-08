@@ -75,7 +75,7 @@ export function Dashboard({ walletAddress }: DashboardProps) {
     <div style={{ display: "flex", minHeight: "calc(100vh - 65px)" }}>
       <LoadingOverlay show={loading} steps={GEN_STEPS} />
       <Sidebar activeTab={activeTab} onTabChange={setActiveTab} generated={!!generated} />
-      <div style={{ flex: 1, padding: 26, background: "var(--bg)", overflowY: "auto" }}>
+      <div className="dashboard-content" style={{ flex: 1, padding: "clamp(12px, 4vw, 26px)", background: "var(--bg)", overflowY: "auto" }}>
         {error && (
           <div style={{ marginBottom: 16, padding: "12px 16px", borderRadius: 10, background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.2)", fontSize: 13, color: "#DC2626" }}>
             {error}

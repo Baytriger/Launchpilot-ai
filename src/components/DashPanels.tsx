@@ -3,6 +3,23 @@
 import { useState, useEffect } from "react";
 import { GeneratedData, StartupInput, Pool } from "@/lib/types";
 
+/* ── Responsive styles ───────────────────────────────────────── */
+if (typeof document !== "undefined") {
+  const id = "__dash-responsive";
+  if (!document.getElementById(id)) {
+    const s = document.createElement("style");
+    s.id = id;
+    s.textContent = `
+      .dash-panel { max-width: 100%; }
+      @media (max-width: 480px) {
+        .dash-panel h2 { font-size: 18px !important; }
+        .dash-panel .panel-sub { font-size: 12px !important; }
+      }
+    `;
+    document.head.appendChild(s);
+  }
+}
+
 /* ── Shared primitives ───────────────────────────────────────── */
 
 function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
@@ -78,7 +95,7 @@ export function IdeaTab({ startup, onChange, onGenerate }: {
     <div>
       <PanelHead title="Startup Idea" sub="Describe your startup. AI will analyze every dimension of your concept." />
       <Card>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 12 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
             <label style={labelStyle}>Startup Name</label>
             <input value={startup.name} onChange={(e) => field("name", e.target.value)} placeholder="e.g. TonVault Protocol" style={inputStyle} />
@@ -109,7 +126,7 @@ export function IdeaTab({ startup, onChange, onGenerate }: {
           />
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12, marginBottom: 16 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
             <label style={labelStyle}>Target Users</label>
             <input value={startup.targetUsers} onChange={(e) => field("targetUsers", e.target.value)} placeholder="e.g. TON holders, DeFi investors" style={inputStyle} />
@@ -151,7 +168,7 @@ export function ValidationTab({ data, onNext }: { data: GeneratedData["validatio
   return (
     <div>
       <PanelHead title="Startup Validation" sub="AI-powered analysis across market, competition, revenue, and risk dimensions." />
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 10, marginBottom: 14 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 10, marginBottom: 14 }}>
         {scores.map((s) => (
           <Card key={s.label}>
             <div style={{ fontSize: 34, fontWeight: 800, letterSpacing: "-1.5px", color: s.color }}>{s.val}</div>
@@ -162,7 +179,7 @@ export function ValidationTab({ data, onNext }: { data: GeneratedData["validatio
           </Card>
         ))}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10 }}>
         <Card><SectionLabel>Market Opportunity</SectionLabel><BulletList items={data.marketOpportunity} /></Card>
         <Card><SectionLabel>Competition Analysis</SectionLabel><BulletList items={data.competition} /></Card>
         <Card><SectionLabel>Revenue Pathways</SectionLabel><BulletList items={data.revenue} /></Card>
@@ -193,7 +210,7 @@ export function TokenomicsTab({ data, tokenSymbol, onNext }: { data: GeneratedDa
   return (
     <div>
       <PanelHead title="Tokenomics" sub="AI-designed token economics based on your startup concept." />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10, marginBottom: 10 }}>
         <Card>
           <SectionLabel>Token Overview</SectionLabel>
           {[
@@ -260,7 +277,7 @@ export function BrandingTab({ data }: { data: GeneratedData["branding"] }) {
   return (
     <div>
       <PanelHead title="Branding" sub="AI-crafted identity to position your startup for maximum market impact." />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10 }}>
         {sections.map((s) => (
           <Card key={s.title}>
             <SectionLabel>{s.title}</SectionLabel>
@@ -316,7 +333,7 @@ export function RoadmapTab({ data }: { data: GeneratedData["roadmap"] }) {
   return (
     <div>
       <PanelHead title="Launch Roadmap" sub="12-month execution plan generated from your startup profile." />
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 10 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: 10 }}>
         {months.map((m) => (
           <Card key={m.label} style={{ borderTop: `2px solid ${m.color}` }}>
             <div style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "1.5px", color: "var(--primary)", marginBottom: 12 }}>{m.label}</div>
@@ -343,7 +360,7 @@ export function LiquidityTab({ data, tokenSymbol, onNext }: { data: GeneratedDat
   return (
     <div>
       <PanelHead title="STON.fi Liquidity Planner" sub="AI-powered strategy tailored to your token and STON.fi DEX intelligence." />
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10, marginBottom: 10 }}>
         <Card>
           <SectionLabel>Allocation Plan — {data.totalBudget} Total</SectionLabel>
           {data.allocation?.map((row) => (
@@ -408,7 +425,7 @@ export function PoolsTab({ tokenSymbol, onNext }: { tokenSymbol: string; onNext:
         )}
       </Card>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10 }}>
         <Card>
           <SectionLabel>Recommended Pool for {tokenSymbol.toUpperCase()} Launch</SectionLabel>
           <div style={{ background: "rgba(0,152,234,0.06)", borderRadius: 9, padding: 13, marginTop: 7, border: "1px solid rgba(0,152,234,0.14)" }}>
@@ -458,7 +475,7 @@ export function ReadinessTab({ data, onNext }: { data: GeneratedData["readiness"
         </div>
         <div style={{ fontSize: 13, color: "var(--sub)", marginTop: 7, maxWidth: 420, marginLeft: "auto", marginRight: "auto", lineHeight: 1.6 }}>{data.verdict}</div>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 10 }}>
         {bars.map((b) => (
           <Card key={b.label}>
             <div style={{ fontSize: 12, fontWeight: 600, display: "flex", justifyContent: "space-between", marginBottom: 7 }}>

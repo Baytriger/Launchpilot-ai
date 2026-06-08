@@ -8,24 +8,26 @@ interface SidebarProps {
   generated: boolean;
 }
 
-const mainItems: { id: DashTab; label: string }[] = [
-  { id: "idea", label: "Startup Idea" },
-  { id: "validation", label: "Validation" },
-  { id: "tokenomics", label: "Tokenomics" },
-  { id: "branding", label: "Branding" },
-  { id: "whitepaper", label: "Whitepaper" },
-  { id: "roadmap", label: "Roadmap" },
+const mainItems: { id: DashTab; label: string; short: string }[] = [
+  { id: "idea", label: "Startup Idea", short: "Idea" },
+  { id: "validation", label: "Validation", short: "Validate" },
+  { id: "tokenomics", label: "Tokenomics", short: "Tokens" },
+  { id: "branding", label: "Branding", short: "Brand" },
+  { id: "whitepaper", label: "Whitepaper", short: "Paper" },
+  { id: "roadmap", label: "Roadmap", short: "Roadmap" },
 ];
 
-const stonfiItems: { id: DashTab; label: string }[] = [
-  { id: "liquidity", label: "Liquidity Planner" },
-  { id: "pools", label: "Pool Intelligence" },
-  { id: "readiness", label: "Launch Score" },
+const stonfiItems: { id: DashTab; label: string; short: string }[] = [
+  { id: "liquidity", label: "Liquidity Planner", short: "Liquidity" },
+  { id: "pools", label: "Pool Intelligence", short: "Pools" },
+  { id: "readiness", label: "Launch Score", short: "Score" },
 ];
 
-const aiItems: { id: DashTab; label: string }[] = [
-  { id: "mira", label: "Mira AI" },
+const aiItems: { id: DashTab; label: string; short: string }[] = [
+  { id: "mira", label: "Mira AI", short: "Mira" },
 ];
+
+const allItems = [...mainItems, ...stonfiItems, ...aiItems];
 
 function SidebarItem({ id, label, active, onClick, locked }: {
   id: DashTab; label: string; active: boolean; onClick: () => void; locked?: boolean;
@@ -53,20 +55,82 @@ function SidebarItem({ id, label, active, onClick, locked }: {
   );
 }
 
+function MobileNavItem({ id, label, active, onClick, locked }: {
+  id: DashTab; label: string; active: boolean; onClick: () => void; locked?: boolean;
+}) {
+  return (
+    <button
+      onClick={locked ? undefined : onClick}
+      style={{
+        display: "flex", flexDirection: "column", alignItems: "center",
+        justifyContent: "center", gap: 3, padding: "6px 8px", borderRadius: 8,
+        border: "none", background: active ? "rgba(0,152,234,0.1)" : "transparent",
+        cursor: locked ? "not-allowed" : "pointer",
+        minWidth: 52, flexShrink: 0,
+        opacity: locked ? 0.4 : 1,
+        transition: "all 0.15s",
+      }}
+    >
+      <div style={{
+        width: 6, height: 6, borderRadius: "50%",
+        background: active ? "var(--primary)" : "var(--border-2)",
+        transition: "background 0.15s",
+      }} />
+      <span style={{
+        fontSize: 10, fontWeight: active ? 700 : 500, whiteSpace: "nowrap",
+        color: active ? "var(--primary)" : locked ? "var(--muted)" : "var(--sub)",
+        letterSpacing: "0.2px",
+      }}>
+        {label}
+      </span>
+    </button>
+  );
+}
+
 export function Sidebar({ activeTab, onTabChange, generated }: SidebarProps) {
   return (
-    <div style={{ background: "var(--bg-2)", borderRight: "1px solid var(--border)", padding: "18px 10px", display: "flex", flexDirection: "column", gap: 2, width: 192, flexShrink: 0 }}>
-      {mainItems.map((item) => (
-        <SidebarItem key={item.id} id={item.id} label={item.label} active={activeTab === item.id} onClick={() => onTabChange(item.id)} locked={item.id !== "idea" && !generated} />
-      ))}
-      <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "var(--muted)", padding: "10px 10px 4px", marginTop: 6 }}>STON.fi</div>
-      {stonfiItems.map((item) => (
-        <SidebarItem key={item.id} id={item.id} label={item.label} active={activeTab === item.id} onClick={() => onTabChange(item.id)} locked={item.id !== "pools" && !generated} />
-      ))}
-      <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "var(--muted)", padding: "10px 10px 4px", marginTop: 6 }}>AI Co-Founder</div>
-      {aiItems.map((item) => (
-        <SidebarItem key={item.id} id={item.id} label={item.label} active={activeTab === item.id} onClick={() => onTabChange(item.id)} locked={!generated} />
-      ))}
-    </div>
+    <>
+      {/* Desktop sidebar */}
+      <div
+        className="desktop-sidebar"
+        style={{
+          background: "var(--bg-2)", borderRight: "1px solid var(--border)",
+          padding: "18px 10px", display: "flex", flexDirection: "column",
+          gap: 2, width: 192, flexShrink: 0,
+        }}
+      >
+        {mainItems.map((item) => (
+          <SidebarItem key={item.id} id={item.id} label={item.label} active={activeTab === item.id} onClick={() => onTabChange(item.id)} locked={item.id !== "idea" && !generated} />
+        ))}
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "var(--muted)", padding: "10px 10px 4px", marginTop: 6 }}>STON.fi</div>
+        {stonfiItems.map((item) => (
+          <SidebarItem key={item.id} id={item.id} label={item.label} active={activeTab === item.id} onClick={() => onTabChange(item.id)} locked={item.id !== "pools" && !generated} />
+        ))}
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", color: "var(--muted)", padding: "10px 10px 4px", marginTop: 6 }}>AI Co-Founder</div>
+        {aiItems.map((item) => (
+          <SidebarItem key={item.id} id={item.id} label={item.label} active={activeTab === item.id} onClick={() => onTabChange(item.id)} locked={!generated} />
+        ))}
+      </div>
+
+      {/* Mobile bottom nav */}
+      <nav className="mobile-bottom-nav">
+        {allItems.map((item) => {
+          const isLocked =
+            (mainItems.find((m) => m.id === item.id) && item.id !== "idea" && !generated) ||
+            (stonfiItems.find((m) => m.id === item.id) && item.id !== "pools" && !generated) ||
+            (aiItems.find((m) => m.id === item.id) && !generated);
+          return (
+            <MobileNavItem
+              key={item.id}
+              id={item.id}
+              label={item.short}
+              active={activeTab === item.id}
+              onClick={() => onTabChange(item.id)}
+              locked={!!isLocked}
+            />
+          );
+        })}
+      </nav>
+    </>
   );
 }
