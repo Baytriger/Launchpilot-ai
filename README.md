@@ -1,4 +1,5 @@
-LaunchPilot AI
+#LaunchPilot AI
+
 Turn any idea into a launch-ready TON startup.
 LaunchPilot AI is an AI-powered venture studio built on the TON blockchain. Founders input a startup concept and receive a complete launch package in under 60 seconds — including validation scores, tokenomics, an investor-grade whitepaper, STON.fi liquidity strategy, and a full context handoff to Mira AI.
 
