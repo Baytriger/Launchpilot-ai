@@ -64,7 +64,6 @@ const steps = [
 ];
 
 const stats = [
-  { val: "7", label: "AI Modules" },
   { val: "TON", label: "Native Chain" },
   { val: "STON.fi", label: "DEX Integration" },
   { val: "<60s", label: "Full Launch Plan" },
